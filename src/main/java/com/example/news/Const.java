@@ -10,4 +10,9 @@ public class Const {
     public static final String NEWS_ID = "idnews";
     public static final String NEWS_TITLE = "title";
     public static final String NEWS_BODY = "body";
+    public static final String COMM_LOG = "login";
+    public static final String COMM_TEXT = "comment";
+    public static final String COMM_ID = "idcomments";
+    public static final String USER_TABLE3 = "comments";
+
 }

@@ -56,6 +56,15 @@ public class MainWindowController {
     private Label loginLabel;
 
     @FXML
+    private TextArea sendComment;
+
+    @FXML
+    private TextArea commentSection;
+    @FXML
+    private Button SendButton;
+
+
+    @FXML
     void newButtonClick(ActionEvent event){
        // newButton.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
@@ -110,6 +119,37 @@ public class MainWindowController {
     }
 
     @FXML
+    void sendButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
+        DatabaseHandler dbH = new DatabaseHandler();
+        dbH.addComment(getId(), loginLabel.getText(), sendComment.getText());
+        ResultSet rst = dbH.getComment(getId());
+        try {
+            assert rst != null;
+            while(rst.next()) {
+                commentSection.appendText(rst.getString("login")+"\n");
+                commentSection.appendText(rst.getString("comment")+"\n");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    int getId() throws SQLException, ClassNotFoundException {
+        DatabaseHandler dbH = new DatabaseHandler();
+        ResultSet rst = dbH.getNewsBody(label.getText());
+        try {
+            assert rst != null;
+            if(rst.next()) {
+                return rst.getInt("idnews");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+         return 0;
+    }
+
+    @FXML
     void initialize() throws SQLException, ClassNotFoundException {
         newButton.setVisible(false);
         editButton.setVisible(false);
@@ -158,10 +198,10 @@ public class MainWindowController {
         }
 
         listView.setOnMouseClicked(e->{
-            label.setText(listView.getSelectionModel().getSelectedItem().trim());
+            label.setText(listView.getSelectionModel().getSelectedItem());
             ResultSet resultSet2 = null;
             try {
-                resultSet2 = dbH.getNewsBody(listView.getSelectionModel().getSelectedItem().trim());
+                resultSet2 = dbH.getNewsBody(listView.getSelectionModel().getSelectedItem());
                 System.out.println(listView.getSelectionModel().getSelectedItem());
             } catch (SQLException | ClassNotFoundException ex) {
                 ex.printStackTrace();
@@ -186,6 +226,5 @@ public class MainWindowController {
     public void  showInfo(String role, String name){
         roleLabel.setText(role);
         loginLabel.setText(name);
-
     }
 }
