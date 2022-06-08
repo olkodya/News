@@ -156,6 +156,7 @@ public class MainWindowController {
         deleteButton.setVisible(false);
         timer = new Timer();
         startCycle();
+
     }
 
     private boolean count = false;
@@ -215,6 +216,24 @@ public class MainWindowController {
                     System.out.println(body);
                     textArea.setText(body);
                     System.out.println(roleLabel.getText());
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            //DatabaseHandler dbH = new DatabaseHandler();
+            ResultSet rst = null;
+            try {
+                rst = dbH.getComment(getId());
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                assert rst != null;
+                while(rst.next()) {
+                    commentSection.appendText(rst.getString("login")+"\n");
+                    commentSection.appendText(rst.getString("comment")+"\n");
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
