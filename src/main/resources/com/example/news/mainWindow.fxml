@@ -14,14 +14,16 @@
       <AnchorPane fx:id="t" prefHeight="200.0" prefWidth="600.0">
          <children>
             <Button fx:id="newButton" layoutX="403.0" layoutY="19.0" mnemonicParsing="false" onAction="#newButtonClick" text="New" />
-            <Button fx:id="deleteButton" layoutX="517.0" layoutY="19.0" mnemonicParsing="false" text="Delete" />
-            <Button fx:id="editButton" layoutX="464.0" layoutY="19.0" mnemonicParsing="false" text="Edit" />
-            <Label fx:id="label" layoutX="185.0" layoutY="23.0" prefHeight="42.0" prefWidth="166.0" text="Label">
+            <Button fx:id="deleteButton" layoutX="517.0" layoutY="19.0" mnemonicParsing="false" onAction="#deleteButtonClick" text="Delete" />
+            <Button fx:id="editButton" layoutX="464.0" layoutY="19.0" mnemonicParsing="false" onAction="#editButtonClick" text="Edit" />
+            <Label fx:id="label" layoutX="256.0" layoutY="80.0" prefHeight="42.0" prefWidth="166.0" text="Label">
                <font>
                   <Font name="Arial Rounded MT Bold" size="35.0" />
                </font>
             </Label>
-            <TextArea fx:id="textArea" layoutX="64.0" layoutY="104.0" prefHeight="261.0" prefWidth="482.0" />
+            <TextArea fx:id="textArea" editable="false" layoutX="19.0" layoutY="131.0" prefHeight="262.0" prefWidth="522.0" />
+            <Label fx:id="roleLabel" layoutX="37.0" layoutY="36.0" text="roleLabel" />
+            <Label fx:id="loginLabel" layoutX="120.0" layoutY="36.0" />
          </children>
       </AnchorPane>
    </children>

@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -45,6 +49,11 @@ public class MainWindowController {
     @FXML
     private TextArea textArea;
 
+    @FXML
+    private Label roleLabel;
+
+    @FXML
+    private Label loginLabel;
 
     @FXML
     void newButtonClick(ActionEvent event){
@@ -63,9 +72,86 @@ public class MainWindowController {
     }
 
     @FXML
+    void deleteButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
+        // newButton.getScene().getWindow().hide();
+        DatabaseHandler dbH = new DatabaseHandler();
+        dbH.DeleteNews(label.getText());
+        label.setText("Label");
+        textArea.setText("News");
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(MyApplication.class.getResource("newWindow.fxml"));
+//        try{
+//            loader.load();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Parent root = loader.getRoot();
+//        Stage stage = new Stage();
+//        stage.setScene(new Scene(root));
+//        stage.showAndWait();
+    }
+
+    @FXML
+    void editButtonClick(ActionEvent event){
+        // newButton.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MyApplication.class.getResource("editWindow.fxml"));
+        try{
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        editWindowController controller = loader.getController();
+        controller.showNew(label.getText(), textArea.getText());
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+    }
+
+    @FXML
     void initialize() throws SQLException, ClassNotFoundException {
+        newButton.setVisible(false);
+        editButton.setVisible(false);
+        deleteButton.setVisible(false);
+        timer = new Timer();
+        startCycle();
+    }
+
+    private boolean count = false;
+
+    void setInvisible() {
+        count = true;
+        System.out.println(roleLabel.getText());
+        if(Objects.equals(roleLabel.getText(), "admin")){
+            newButton.setVisible(true);
+            editButton.setVisible(true);
+            deleteButton.setVisible(true);
+        }
+    }
+
+
+    private static Timer timer;
+    private void startCycle() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    try {
+                        update();
+                        if (!count) setInvisible();
+                    } catch (IOException | SQLException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        }, 0, 1000);
+    }
+
+    private void update() throws IOException, SQLException, ClassNotFoundException {
         DatabaseHandler dbH = new DatabaseHandler();
         ResultSet resultSet = dbH.getNews();
+        listView.getItems().clear();
         while (resultSet.next()) {
             String name = resultSet.getString("title");
             listView.getItems().add(name);
@@ -88,14 +174,18 @@ public class MainWindowController {
                     body = resultSet2.getString("body");
                     System.out.println(body);
                     textArea.setText(body);
+                    System.out.println(roleLabel.getText());
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-            // System.out.println(body);
 
         });
-
     }
 
+    public void  showInfo(String role, String name){
+        roleLabel.setText(role);
+        loginLabel.setText(name);
+
+    }
 }

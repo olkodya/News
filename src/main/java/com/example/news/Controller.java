@@ -40,13 +40,26 @@ public class Controller {
     @FXML
     void SignUpButtonClick(ActionEvent event){
         SignUpButton.getScene().getWindow().hide();
-        OpenNewScene("signUp.fxml");
+        //OpenNewScene();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MyApplication.class.getResource("signUp.fxml"));
+        try{
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+       // MainWindowController controller = loader.getController();
+        //controller.showInfo(role);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
     }
 
     @FXML
     void guestButtonClick(ActionEvent event){
         guestButton.getScene().getWindow().hide();
-        OpenNewScene("mainWindow.fxml");
+        OpenNewScene("mainWindow.fxml", "Guest");
     }
 
     @FXML
@@ -57,7 +70,7 @@ public class Controller {
         if(!loginText.equals("")&&!loginPassword.equals("")){
             if(loginUser(loginText, loginPassword)) {
                 loginButton.getScene().getWindow().hide();
-                OpenNewScene("mainWindow.fxml");
+                OpenNewScene("mainWindow.fxml", getRole(loginText));
             }
         }
         else{
@@ -80,7 +93,7 @@ public class Controller {
         return true;
     }
 
-    public void OpenNewScene(String window) {
+    public void OpenNewScene(String window, String role) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(MyApplication.class.getResource(window));
         try{
@@ -89,11 +102,34 @@ public class Controller {
             e.printStackTrace();
         }
         Parent root = loader.getRoot();
+        MainWindowController controller = loader.getController();
+        controller.showInfo(role, loginTextField.getText());
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.showAndWait();
     }
 
+    String getRole(String login){
+        DatabaseHandler dbH = new DatabaseHandler();
+        ResultSet resultSet2 = null;
+        try {
+            resultSet2 = dbH.getLogin(login);
+           // System.out.println(listView.getSelectionModel().getSelectedItem());
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        String role = null;
+        try {
+            assert resultSet2 != null;
+            if(resultSet2.next()) {
+                System.out.println( resultSet2);
+                role = resultSet2.getString("role");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return role;
+    }
 //    @FXML
 //    void initialize() {
 //        SignUpButton.setOnAction(event->{

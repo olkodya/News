@@ -69,6 +69,16 @@ public class DatabaseHandler extends Configs{
         return resSet;
     }
 
+    public void DeleteNews(String title) throws SQLException, ClassNotFoundException {
+        String select = "DELETE FROM " + Const.USER_TABLE2 + " WHERE " + Const.NEWS_TITLE + "=?";
+        PreparedStatement prSt = getDbConnection().prepareStatement(select);
+        prSt.setString(1, title);
+//        prSt.setString(2, news.getText());
+        prSt.executeUpdate();
+    }
+
+
+
 
 }
 

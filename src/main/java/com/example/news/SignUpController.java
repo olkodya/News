@@ -63,6 +63,8 @@ public class SignUpController {
                         e.printStackTrace();
                     }
                     Parent root = loader.getRoot();
+                    MainWindowController controller = loader.getController();
+                    controller.showInfo(role, signUpLogin.getText());
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.showAndWait();
