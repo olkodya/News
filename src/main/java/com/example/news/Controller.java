@@ -107,6 +107,7 @@ public class Controller {
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.showAndWait();
+
     }
 
     String getRole(String login){

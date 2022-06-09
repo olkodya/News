@@ -15,9 +15,15 @@ public class MyApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
+    }
+    @Override
+    public void stop() throws IOException {
+       //System.exit(0);
     }
 
     public static void main(String[] args) {
         launch();
     }
+
 }

@@ -15,12 +15,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.control.skin.VirtualFlow;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class MainWindowController {
@@ -62,6 +62,7 @@ public class MainWindowController {
     private TextArea commentSection;
     @FXML
     private Button SendButton;
+
 
 
     @FXML
@@ -126,12 +127,14 @@ public class MainWindowController {
         try {
             assert rst != null;
             while(rst.next()) {
-                commentSection.appendText(rst.getString("login")+"\n");
-                commentSection.appendText(rst.getString("comment")+"\n");
+                commentSection.appendText("User: " + rst.getString("login")+"\n");
+                commentSection.appendText("\t " +rst.getString("comment")+"\n\n");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+
+        sendComment.clear();
 
     }
 
@@ -154,8 +157,15 @@ public class MainWindowController {
         newButton.setVisible(false);
         editButton.setVisible(false);
         deleteButton.setVisible(false);
+        SendButton.setVisible(false);
+        sendComment.setVisible(false);
+        textArea.setWrapText(true);
+        commentSection.setWrapText(true);
+        sendComment.setWrapText(true);
         timer = new Timer();
+        listView.setStyle("-fx-font: 14pt Arial");
         startCycle();
+
 
     }
 
@@ -168,6 +178,10 @@ public class MainWindowController {
             newButton.setVisible(true);
             editButton.setVisible(true);
             deleteButton.setVisible(true);
+        }
+        if(Objects.equals(roleLabel.getText(), "admin")||Objects.equals(roleLabel.getText(), "user")){
+            sendComment.setVisible(true);
+            SendButton.setVisible(true);
         }
     }
 
@@ -190,6 +204,7 @@ public class MainWindowController {
     }
 
     private void update() throws IOException, SQLException, ClassNotFoundException {
+
         DatabaseHandler dbH = new DatabaseHandler();
         ResultSet resultSet = dbH.getNews();
         listView.getItems().clear();
@@ -200,8 +215,11 @@ public class MainWindowController {
 
         listView.setOnMouseClicked(e->{
             label.setText(listView.getSelectionModel().getSelectedItem());
+            commentSection.clear();
             ResultSet resultSet2 = null;
             try {
+                //listView.setStyle("-fx-control-inner-background: hotpink");
+                listView.setStyle("-fx-font: 14pt Arial");
                 resultSet2 = dbH.getNewsBody(listView.getSelectionModel().getSelectedItem());
                 System.out.println(listView.getSelectionModel().getSelectedItem());
             } catch (SQLException | ClassNotFoundException ex) {
@@ -224,21 +242,23 @@ public class MainWindowController {
             ResultSet rst = null;
             try {
                 rst = dbH.getComment(getId());
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
             try {
                 assert rst != null;
                 while(rst.next()) {
-                    commentSection.appendText(rst.getString("login")+"\n");
-                    commentSection.appendText(rst.getString("comment")+"\n");
+                    commentSection.appendText("User: " + rst.getString("login")+"\n");
+                    commentSection.appendText("\t " +rst.getString("comment")+"\n\n");
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
 
+        });
+        Stage stage = (Stage)label.getScene().getWindow();
+        stage.setOnCloseRequest(windowEvent -> {
+            timer.cancel();
         });
     }
 

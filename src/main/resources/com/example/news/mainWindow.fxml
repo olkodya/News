@@ -8,25 +8,70 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.news.MainWindowController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.news.MainWindowController">
    <children>
-      <ListView fx:id="listView" prefHeight="600.0" prefWidth="300.0" />
+      <ListView fx:id="listView" prefHeight="553.0" prefWidth="296.0" />
       <AnchorPane fx:id="t" prefHeight="600.0" prefWidth="906.0">
          <children>
-            <Button fx:id="newButton" layoutX="693.0" layoutY="23.0" mnemonicParsing="false" onAction="#newButtonClick" text="New" />
-            <Button fx:id="deleteButton" layoutX="831.0" layoutY="23.0" mnemonicParsing="false" onAction="#deleteButtonClick" text="Delete" />
-            <Button fx:id="editButton" layoutX="763.0" layoutY="23.0" mnemonicParsing="false" onAction="#editButtonClick" text="Edit" />
-            <Label fx:id="label" layoutX="245.0" layoutY="15.0" prefHeight="42.0" prefWidth="166.0" text="Label">
+            <Button fx:id="newButton" layoutX="693.0" layoutY="23.0" mnemonicParsing="false" onAction="#newButtonClick" style="-fx-background-color: #FF69B4;" text="New" textFill="WHITE">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="deleteButton" layoutX="831.0" layoutY="23.0" mnemonicParsing="false" onAction="#deleteButtonClick" style="-fx-background-color: #FF69B4;" text="Delete" textFill="WHITE">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="editButton" layoutX="763.0" layoutY="23.0" mnemonicParsing="false" onAction="#editButtonClick" style="-fx-background-color: #FF69B4;" text="Edit" textFill="WHITE">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font></Button>
+            <Label fx:id="label" layoutX="245.0" layoutY="15.0" prefHeight="42.0" prefWidth="400.0" text="Popcake news portal" textFill="HOTPINK">
                <font>
                   <Font name="Arial Rounded MT Bold" size="35.0" />
                </font>
             </Label>
-            <TextArea fx:id="textArea" editable="false" layoutX="19.0" layoutY="76.0" prefHeight="354.0" prefWidth="522.0" />
-            <Label fx:id="roleLabel" layoutX="37.0" layoutY="36.0" text="roleLabel" />
-            <Label fx:id="loginLabel" layoutX="120.0" layoutY="36.0" />
-            <TextArea fx:id="commentSection" layoutX="29.0" layoutY="439.0" prefHeight="71.0" prefWidth="507.0" />
-            <TextArea fx:id="sendComment" layoutX="23.0" layoutY="528.0" prefHeight="39.0" prefWidth="514.0" />
-            <Button fx:id="SendButton" layoutX="574.0" layoutY="535.0" mnemonicParsing="false" onAction="#sendButtonClick" text="Send" />
+            <TextArea fx:id="textArea" editable="false" layoutX="19.0" layoutY="76.0" prefHeight="354.0" prefWidth="514.0" style="overflow:hidden">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font></TextArea>
+            <Label fx:id="roleLabel" layoutX="37.0" layoutY="36.0" prefHeight="18.0" prefWidth="54.0" text="Role" textFill="HOTPINK">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="loginLabel" layoutX="108.0" layoutY="35.0" prefHeight="18.0" prefWidth="101.0" text="Login" textFill="HOTPINK">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="commentSection" editable="false" layoutX="19.0" layoutY="457.0" prefHeight="130.0" prefWidth="851.0">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font></TextArea>
+            <TextArea fx:id="sendComment" layoutX="172.0" layoutY="610.0" prefHeight="39.0" prefWidth="574.0">
+               <font>
+                  <Font name="Bell MT" size="12.0" />
+               </font></TextArea>
+            <Button fx:id="SendButton" layoutX="763.0" layoutY="618.0" mnemonicParsing="false" onAction="#sendButtonClick" style="-fx-background-color: #ff69b4;" text="Send" textFill="WHITE">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font>
+            </Button>
+            <Label layoutX="37.0" layoutY="15.0" text="Role:">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="108.0" layoutY="15.0" text="Login:">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="441.0" text="Comments">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="13.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>
