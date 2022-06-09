@@ -44,7 +44,7 @@ public class SignUpController {
 
     @FXML
     void SignUpLoginButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "User name or Password is empty!☺\n", ButtonType.YES);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "User name or Password is empty!\n", ButtonType.YES);
             String role = null;
             if(AdminRadioButton.isSelected()){
                 role = "admin";
@@ -81,7 +81,7 @@ public class SignUpController {
 
     private boolean checkUser(String loginText) throws SQLException, ClassNotFoundException {
         Client.checkUser(loginText);
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "User with this login already exist!☺\n", ButtonType.YES);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "User with this login already exist!\n", ButtonType.YES);
         String resp = Client.getResponse();
         System.out.println(resp);
         if(Objects.equals(resp, "0")){
