@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.news.NewWindowController">
+    <children>
+        <AnchorPane prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #FF69B4;">
+         <children>
+            <ImageView fitHeight="130.0" fitWidth="162.0" layoutX="35.0" layoutY="235.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/Edit.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+        <AnchorPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #FF69B4; -fx-border-width: 0;">
+            <children>
+                <Button fx:id="createButton" layoutX="265.0" layoutY="545.0" mnemonicParsing="false" onAction="#createButtonClick" prefHeight="0.0" prefWidth="170.0" style="-fx-background-color: #FF69B4;" text="Create" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="21.0" />
+                    </font>
+                </Button>
+                <TextField fx:id="titleTextField" layoutX="180.0" layoutY="78.0" prefHeight="32.0" prefWidth="340.0" promptText="Title" style="-fx-background-color: #FFFFFF; -fx-border-color: #FF69B4; -fx-border-width: 0px 0px 2px 0px;">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                    </font>
+                </TextField>
+            <TextArea fx:id="text" layoutX="93.0" layoutY="168.0" prefHeight="354.0" prefWidth="514.0" promptText="Text" style="-fx-border-color: #FF69B4;" />
+            </children>
+        </AnchorPane>
+    </children>
+</HBox>

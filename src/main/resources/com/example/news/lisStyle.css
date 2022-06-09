@@ -1,0 +1,5 @@
+.list-view .column-header{
+    -fx-text-fill: hotpink;
+    -fx-font-size: 14;
+    /*-fx-font-family: "Arial";*/
+}
