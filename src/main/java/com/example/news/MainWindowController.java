@@ -67,7 +67,6 @@ public class MainWindowController {
 
     @FXML
     void newButtonClick(ActionEvent event){
-       // newButton.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(MyApplication.class.getResource("newWindow.fxml"));
         try{
@@ -84,8 +83,8 @@ public class MainWindowController {
     @FXML
     void deleteButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
         // newButton.getScene().getWindow().hide();
-        DatabaseHandler dbH = new DatabaseHandler();
-        dbH.DeleteNews(label.getText());
+        Client.delNews(label.getText());
+        Client.getResponse();
         label.setText("Label");
         textArea.setText("News");
 //        FXMLLoader loader = new FXMLLoader();
@@ -139,17 +138,8 @@ public class MainWindowController {
     }
 
     int getId() throws SQLException, ClassNotFoundException {
-        DatabaseHandler dbH = new DatabaseHandler();
-        ResultSet rst = dbH.getNewsBody(label.getText());
-        try {
-            assert rst != null;
-            if(rst.next()) {
-                return rst.getInt("idnews");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-         return 0;
+        Client.getID(label.getText());
+        return Integer.parseInt(Client.getResponse());
     }
 
     @FXML

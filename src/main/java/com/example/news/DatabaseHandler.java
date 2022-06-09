@@ -22,14 +22,18 @@ public class DatabaseHandler extends Configs{
         prSt.executeUpdate();
     }
 
-    public ResultSet getUser(String UserName, String password) throws SQLException, ClassNotFoundException {
+    public boolean getUser(String UserName, String password) throws SQLException, ClassNotFoundException {
         ResultSet resSet = null;
         String select = "SELECT * FROM " + Const.USER_TABLE + " WHERE " + Const.USER_LOGIN + "=? AND " + Const.USER_PASSWORD +"=?";
         PreparedStatement prSt = getDbConnection().prepareStatement(select);
         prSt.setString(1, UserName);
         prSt.setString(2, password);
         resSet = prSt.executeQuery();
-        return resSet;
+        int k = 0;
+        while (resSet.next()) {
+            k++;
+        }
+        return k > 0;
     }
 
     public ResultSet getLogin(String UserName) throws SQLException, ClassNotFoundException {
@@ -41,11 +45,11 @@ public class DatabaseHandler extends Configs{
         return resSet;
     }
 
-    public void createNews(News news) throws SQLException, ClassNotFoundException {
+    public void createNews(String title, String body) throws SQLException, ClassNotFoundException {
         String insert = "INSERT INTO " + Const.USER_TABLE2 + "(" + Const.NEWS_TITLE + "," +Const.NEWS_BODY  + ")" + "VALUES(?,?)";
         PreparedStatement prSt = getDbConnection().prepareStatement(insert);
-        prSt.setString(1, news.getTitle());
-        prSt.setString(2, news.getText());
+        prSt.setString(1, title);
+        prSt.setString(2, body);
         prSt.executeUpdate();
     }
 
@@ -104,6 +108,60 @@ public class DatabaseHandler extends Configs{
 //        prSt.setString(2, news.getText());
         resSet = prSt.executeQuery();
         return resSet;
+    }
+
+    public String getRole(String login) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet2 = getLogin(login);
+        String role = null;
+        try {
+            assert resultSet2 != null;
+            if(resultSet2.next()) {
+                role = resultSet2.getString("role");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return role;
+    }
+
+    public String CheckUser(String login) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet2 = getLogin(login);
+        try {
+            assert resultSet2 != null;
+            if(resultSet2.next()) {
+                return "0";
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "1";
+    }
+
+    public void edNews(String starttitle, String title, String body) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet2 = getNewsBody(starttitle);
+        int id = 0;
+        try {
+            assert resultSet2 != null;
+            if (resultSet2.next()) {
+                id = resultSet2.getInt("idnews");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        updateNews(id, title, body);
+    }
+
+    public int getID(String title) throws SQLException, ClassNotFoundException {
+        ResultSet rst = getNewsBody(title);
+        try {
+            assert rst != null;
+            if(rst.next()) {
+                return rst.getInt("idnews");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
     }
 }
 

@@ -27,24 +27,9 @@ public class editWindowController {
 
     @FXML
     void createButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
-        System.out.println(startTitle);
-        DatabaseHandler dbHandler = new DatabaseHandler();
-        ResultSet resultSet2 = null;
-        try {
-            resultSet2 = dbHandler.getNewsBody(startTitle);
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        int id = 0;
-        try {
-            assert resultSet2 != null;
-            if (resultSet2.next()) {
-                id = resultSet2.getInt("idnews");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        dbHandler.updateNews(id, titleTextField.getText(), text.getText());
+
+       Client.editNews(startTitle,titleTextField.getText(), text.getText() );
+       Client.getResponse();
         createButton.getScene().getWindow().hide();
 
 

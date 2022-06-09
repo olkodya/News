@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -79,18 +80,15 @@ public class Controller {
     }
 
     private boolean loginUser(String loginText, String loginPassword) throws SQLException, ClassNotFoundException {
-        DatabaseHandler dbHandler = new DatabaseHandler();
-        ResultSet result = dbHandler.getUser(loginText, loginPassword);
-        int counter = 0;
+        Client.loginUser(loginText, loginPassword);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "User with this login and password not found!☺\n", ButtonType.YES);
-        while(result.next()){
-            counter++;
-        }
-        if(counter < 1){
+        String response = Client.getResponse();
+        if (Objects.equals(response, "correct")) {
+            return true;
+        } else {
             alert.showAndWait();
             return false;
         }
-        return true;
     }
 
     public void OpenNewScene(String window, String role) {
@@ -111,25 +109,8 @@ public class Controller {
     }
 
     String getRole(String login){
-        DatabaseHandler dbH = new DatabaseHandler();
-        ResultSet resultSet2 = null;
-        try {
-            resultSet2 = dbH.getLogin(login);
-           // System.out.println(listView.getSelectionModel().getSelectedItem());
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        String role = null;
-        try {
-            assert resultSet2 != null;
-            if(resultSet2.next()) {
-                System.out.println( resultSet2);
-                role = resultSet2.getString("role");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return role;
+        Client.Role(login);
+        return Client.getResponse();
     }
 //    @FXML
 //    void initialize() {

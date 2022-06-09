@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -43,7 +44,6 @@ public class SignUpController {
 
     @FXML
     void SignUpLoginButtonClick(ActionEvent event) throws SQLException, ClassNotFoundException {
-            DatabaseHandler dbHandler = new DatabaseHandler();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "User name or Password is empty!☺\n", ButtonType.YES);
             String role = null;
             if(AdminRadioButton.isSelected()){
@@ -54,20 +54,24 @@ public class SignUpController {
             }
             if(!signUpLogin.getText().trim().equals("")&&!SignUpPassword.getText().trim().equals("")){
                 if(checkUser(signUpLogin.getText().trim())) {
-                    dbHandler.signUpUser(signUpLogin.getText().trim(), SignUpPassword.getText().trim(), role);
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(MyApplication.class.getResource("mainWindow.fxml"));
-                    try{
-                        loader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    Client.SignUp(signUpLogin.getText(), SignUpPassword.getText(), role);
+
+                    if (Objects.equals(Client.getResponse(), "SUCCESS")) {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(MyApplication.class.getResource("mainWindow.fxml"));
+                        try{
+                            loader.load();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Parent root = loader.getRoot();
+                        MainWindowController controller = loader.getController();
+                        controller.showInfo(role, signUpLogin.getText());
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.showAndWait();
                     }
-                    Parent root = loader.getRoot();
-                    MainWindowController controller = loader.getController();
-                    controller.showInfo(role, signUpLogin.getText());
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.showAndWait();
+
                 }
             }
             else{
@@ -76,14 +80,11 @@ public class SignUpController {
     }
 
     private boolean checkUser(String loginText) throws SQLException, ClassNotFoundException {
-        DatabaseHandler dbHandler = new DatabaseHandler();
-        ResultSet result = dbHandler.getLogin(loginText);
-        int counter = 0;
+        Client.checkUser(loginText);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "User with this login already exist!☺\n", ButtonType.YES);
-        while(result.next()){
-            counter++;
-        }
-        if(counter > 0){
+        String resp = Client.getResponse();
+        System.out.println(resp);
+        if(Objects.equals(resp, "0")){
             alert.showAndWait();
             return false;
         }
